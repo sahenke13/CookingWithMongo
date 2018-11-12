@@ -3,14 +3,14 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var exphbs = require("express-handlebars")
+var exphbs = require("express-handlebars");
 
 //needed for scrapping
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 //bring in models
-// var db = (require("./models"));
+var db = (require("./models"));
 
 //set PORT To 3000
 var PORT = 3000;
@@ -29,8 +29,8 @@ app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
 //connect to mongoose
-mongoose.connect("mongodb://localhost/cookingArticlesdb",{ useNewUrlParser: true });
 
+mongoose.connect("mongodb://localhost/cookArticlesdb", { useNewUrlParser: true });
 //routes
 app.get("/", function(req,res){
     console.log("The / route is working")
@@ -38,25 +38,39 @@ app.get("/", function(req,res){
 })
 
 app.get("/scrape", function(req, res){
-    axios.get("https://www.foodnetwork.ca/all-articles/".then(function(i, element){
 
+    axios.get("https://www.foodnetwork.ca/all-articles/").then(function(response){
     var $ = cheerio.load(response.data)
-
-    $("post-info").each(function(i,element){
-
+    $("li h3").each(function(i,element){
         var result= {};
 
-        result.title = $(this).children("a").text();
-        result.href = $(this).children("a").attr(href);
+        result.title = $(this).children("a").text().trim();
+        result.link = "https://www.foodnetwork.ca" + $(this).children("a").attr("href");
 
+        console.log("result is: " + result)
 
-    })
+        db.Article.create(result).then(function(cookArticle){
+            console.log(cookArticle);
+        }).catch(function(err){
+                console.log(err);
+        });
 
+    });
+    res.send("Scrape Complete"); 
+    });
+    
+});
 
+app.get("/cookingArticles", function(req, res){
+    db.Article.find({}).then(function(data){
+        var hbsObject = {
+            cookArticle: data
+        }
 
-            
-    })
-    )
+        res.render("index",hbsObject);
+    }).catch(function(err){
+        res.json(err);
+    });
 });
 
 

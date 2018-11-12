@@ -2,3 +2,22 @@
     text-align: center;
     background-color:Red;
 }
+
+#articleWell{
+    width:760px;
+    margin-right: auto;
+    margin-left:auto;
+    padding: 10px;
+}
+
+#articleTitle{
+    font-size: 2em;
+    margin-top: 30px;
+}
+
+#articleDiv{
+    border-radius: 1em;
+    text-align: center;
+    background: gray;
+    
+}

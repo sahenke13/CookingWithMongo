@@ -1,4 +1,10 @@
-<div id = "recipeWell">
-
+<div id = "articleWell">
+    {{#each cookArticle}}
+    <div id ="articleDiv">
+        <h1 id = "articleTitle">{{this.title}}</h1>
+        <br>
+        {{this.link}}
+    </div>
+    {{/each}}
 
 </div>
