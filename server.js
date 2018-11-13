@@ -61,14 +61,11 @@ app.get("/scrape", function(req, res){
         }).catch(function(err){
                 console.log(err);
         });
-
     });
     res.redirect("/"); 
     });
     
 });
-
-
 
 //route to view saved Articles
 app.get("/savedArticles", function(req,res){
@@ -76,7 +73,7 @@ app.get("/savedArticles", function(req,res){
         var savedObject = {
             cookArticle: data
         }
-        res.render("index",savedObject);
+        res.render("saved",savedObject);
     }).catch(function(err){
         res.json(err);
     });
@@ -88,10 +85,29 @@ app.post("/cookingArticles/saved/:id", function(req,res){
     db.Article.findOneAndUpdate({"_id": req.params.id},{$set:{saved:true}})
         .then(function(){
             res.redirect("/");
+        }).catch(function(err){
+            res.json(err);
         });
+});
 
+app.get("/clear", function(req,res){
+    db.Article.remove({saved:false}).then(function(){
+        res.redirect("/");
+    }).catch(function(err){
+        res.json(err);
+    });
+    res.redirect("/");
+});
 
-})
+app.post("/savedArticles/delete/:id", function(req,res){
+    db.Article.findByIdAndRemove({"_id":req.params.id}).then(function(req,res){
+        res.redirect("/savedArticles")
+    }).catch(function(err){
+        res.json(err);
+    });
+
+    });
+
 
 
 
