@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
 
-    body: String
-    
+    note: String
+
 });
 
 var Comment = mongoose.model("Comment",CommentSchema);

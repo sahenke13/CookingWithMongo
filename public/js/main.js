@@ -27,17 +27,32 @@ $(document).on("click","#removeArticle", function(){
 
 })
 
-$(document).on("click", "#myModal", function(){
-    console.log("click is working")
-    $('#myModal').modal('show');
-})
+
+
+
 
 $(document).on("submit","#noteForm",function(event){
     event.preventDefault();
-    let note = $("#note").val();
-    console.log(note)
 
+    let thisId = $(this).attr("data-id");
+    console.log(thisId);
+    //grab comment
+    let comment = $("#comment"+thisId).val();
+    console.log(comment)
+    //grab data-id button
+   
 
-    $("#note").val("");
+    $.ajax({
+        method: "POST",
+        url: "/savedArticles/" + thisId,
+        data:{
+            note: comment
+        }
+    }).then(function(data){
+        console.log(data)
+        window.location="/savedArticles"
+    });
 
-})
+    $("#comment"+thisId).val("");
+
+});

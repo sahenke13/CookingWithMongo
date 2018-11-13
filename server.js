@@ -71,8 +71,9 @@ app.get("/scrape", function(req, res){
 app.get("/savedArticles", function(req,res){
     db.Article.find({saved:true}).then(function(data){
         var savedObject = {
-            cookArticle: data
+            savedObject: data
         }
+        console.log(savedObject);
         res.render("saved",savedObject);
     }).catch(function(err){
         res.json(err);
@@ -105,10 +106,32 @@ app.post("/savedArticles/delete/:id", function(req,res){
     }).catch(function(err){
         res.json(err);
     });
-
     });
 
+app.post("/savedArticles/:id",function(req,res){
+    
+    db.Comment.create(req.body)
+        .then(function(result){
+            db.Article.findOneAndUpdate({"_id":req.params.id},{$push:{comment:result._id}},{new:true})
+                .populate("comment")
+                .then(result=>res.json(result));
+        });
+        res.redirect("/savedArticles")
+});
 
+app.post("/savedArticles/:id",function(req,res){
+    db.Article.findById({_id : req.params.id})
+        .then(function(resultDb){
+            res.json(resultDb);
+        })
+})
+
+// app.get("/savedArticles/:id",function(req,res){
+//     db.Article.findById({_id : req.params.id}).populate("comment")
+//         .then(function(resultDb){
+//             res.json(resultDb);
+//         })
+// })
 
 
 
