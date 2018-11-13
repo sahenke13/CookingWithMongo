@@ -1,9 +1,14 @@
-<div id = "articleWell">
+<div id="articleWell">
     {{#each cookArticle}}
-    <div id ="articleDiv">
-        <h1 id = "articleTitle">{{this.title}}</h1>
-        <br>
-        {{this.link}}
+    <div id="articleDiv" data-id={{this.id}}>
+    <a href={{this.link}}>
+    
+            <h1 id="articleTitle">{{this.title}}</h1>
+    </a>
+    <p>
+        {{this.summary}}
+    </p>
+    <button id = "saveArticle" type="button" class="btn btn-warning" data-id={{this.id}}>Save Me!</button>
     </div>
     {{/each}}
 

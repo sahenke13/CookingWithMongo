@@ -32,10 +32,16 @@ app.set("view engine", "handlebars");
 
 mongoose.connect("mongodb://localhost/cookArticlesdb", { useNewUrlParser: true });
 //routes
-app.get("/", function(req,res){
-    console.log("The / route is working")
-    res.render("index");
-})
+app.get("/", function(req, res){
+    db.Article.find({saved:false}).then(function(data){
+        var articleObject = {
+            cookArticle: data
+        }
+        res.render("index",articleObject);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
 
 app.get("/scrape", function(req, res){
 
@@ -46,6 +52,7 @@ app.get("/scrape", function(req, res){
 
         result.title = $(this).children("a").text().trim();
         result.link = "https://www.foodnetwork.ca" + $(this).children("a").attr("href");
+        result.summary = $(this).siblings("p").text().trim();
 
         console.log("result is: " + result)
 
@@ -56,22 +63,37 @@ app.get("/scrape", function(req, res){
         });
 
     });
-    res.send("Scrape Complete"); 
+    res.redirect("/"); 
     });
     
 });
 
-app.get("/cookingArticles", function(req, res){
-    db.Article.find({}).then(function(data){
-        var hbsObject = {
+
+
+//route to view saved Articles
+app.get("/savedArticles", function(req,res){
+    db.Article.find({saved:true}).then(function(data){
+        var savedObject = {
             cookArticle: data
         }
-
-        res.render("index",hbsObject);
+        res.render("index",savedObject);
     }).catch(function(err){
         res.json(err);
     });
-});
+    });
+
+//route to update whether an article is saved or not
+
+app.post("/cookingArticles/saved/:id", function(req,res){
+    db.Article.findOneAndUpdate({"_id": req.params.id},{$set:{saved:true}})
+        .then(function(){
+            res.redirect("/");
+        });
+
+
+})
+
+
 
 
 // Start the server
