@@ -130,10 +130,10 @@ app.get("/notes", function(req, res){
         })
 })
 
-app.get("/notes/delete/:id",function(req,res){
+app.post("/notes/delete/:id",function(req,res){
     
-    console.log("+++++++++++++++++++++++")
-    console.log(thisId);
+   
+  
 
     db.Comment.findByIdAndRemove({_id: req.params.id}).then(function(result){
         

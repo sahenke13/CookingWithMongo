@@ -71,7 +71,4 @@ $(document).on("click","#deleteNote", function(){
         window.location="/savedArticles"
     });
 
-
-
-
 });
