@@ -29,8 +29,10 @@ app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
 //connect to mongoose
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/cookArticlesdb";
 
-mongoose.connect("mongodb://localhost/cookArticlesdb", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
+
 //routes
 app.get("/", function(req, res){
     db.Article.find({saved:false}).then(function(data){
