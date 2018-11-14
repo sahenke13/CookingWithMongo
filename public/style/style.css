@@ -24,3 +24,9 @@
 a:link{
     color:white;
 }
+#commentDiv{
+    text-align: left;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -69,7 +69,7 @@ app.get("/scrape", function(req, res){
 
 //route to view saved Articles
 app.get("/savedArticles", function(req,res){
-    db.Article.find({saved:true}).then(function(data){
+    db.Article.find({saved:true}).populate("comment").then(function(data){
         var savedObject = {
             savedObject: data
         }
@@ -114,24 +114,35 @@ app.post("/savedArticles/:id",function(req,res){
         .then(function(result){
             db.Article.findOneAndUpdate({"_id":req.params.id},{$push:{comment:result._id}},{new:true})
                 .populate("comment")
-                .then(result=>res.json(result));
-        });
+                    .then(result=>res.json(result))
+         });
         res.redirect("/savedArticles")
 });
 
-app.post("/savedArticles/:id",function(req,res){
-    db.Article.findById({_id : req.params.id})
-        .then(function(resultDb){
-            res.json(resultDb);
-        })
-})
 
-// app.get("/savedArticles/:id",function(req,res){
-//     db.Article.findById({_id : req.params.id}).populate("comment")
-//         .then(function(resultDb){
-//             res.json(resultDb);
-//         })
-// })
+
+app.get(("/savedArticles/:id/:noteId"),function(req,res){
+    var thisId = req.params.id;
+    var thisNoteId = req.params.noteId;
+    
+
+    db.Comment.findByIdAndRemove({_id: thisNoteId}, function(err){
+        if(err) throw err;
+        else{
+            db.Article.findByIdAndUpdate({_id: thisId},{$pull:{comment: thisNoteId}}, function(err){
+                if (err) throw err;
+                else{
+                    res.redirect("/saved")
+                }
+            })
+        }
+
+
+    })
+    });
+    
+
+
 
 
 

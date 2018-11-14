@@ -5,7 +5,12 @@ var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
 
-    note: String
+    note: String,
+    articleId: [{
+        type: Schema.Types.ObjectId,
+        ref: "Article"
+    }]
+    
 
 });
 
