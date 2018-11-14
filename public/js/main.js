@@ -65,9 +65,9 @@ $(document).on("click","#deleteNote", function(){
 
     $.ajax({
         method: "POST",
-        url:"/savedArticles/Comment/delete/"+thisNoteId
+        url:"/notes/delete/"+thisNoteId
     }).then(function(data){
-        console.log(data);
+       
         window.location="/savedArticles"
     });
 

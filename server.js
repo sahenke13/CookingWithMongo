@@ -123,25 +123,27 @@ app.post("/savedArticles/:id",function(req,res){
 
 
 
-// app.get(("/savedArticles/:id/:noteId"),function(req,res){
-//     var thisId = req.params.id;
-//     var thisNoteId = req.params.noteId;
+app.get("/notes", function(req, res){
+    db.Comment.find({}).populate("articleId")
+        .then(function(result){
+        res.json(result)
+        })
+})
+
+app.get("/notes/delete/:id",function(req,res){
     
+    console.log("+++++++++++++++++++++++")
+    console.log(thisId);
 
-//     db.Comment.findByIdAndRemove({_id: thisNoteId}, function(err){
-//         if(err) throw err;
-//         else{
-//             db.Article.findByIdAndUpdate({_id: thisId},{$pull:{comment: thisNoteId}}, function(err){
-//                 if (err) throw err;
-//                 else{
-//                     res.redirect("/saved")
-//                 }
-//             })
-//         }
+    db.Comment.findByIdAndRemove({_id: req.params.id}).then(function(result){
+        
+            console.log(result)
+            res.json(result);
 
-
-//     })
-//     });
+    }).catch(function(err){
+        res.json(err);
+    });
+    });
     
 
 // Start the server
