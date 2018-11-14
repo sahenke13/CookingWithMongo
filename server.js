@@ -121,30 +121,26 @@ app.post("/savedArticles/:id",function(req,res){
 
 
 
-app.get(("/savedArticles/:id/:noteId"),function(req,res){
-    var thisId = req.params.id;
-    var thisNoteId = req.params.noteId;
+// app.get(("/savedArticles/:id/:noteId"),function(req,res){
+//     var thisId = req.params.id;
+//     var thisNoteId = req.params.noteId;
     
 
-    db.Comment.findByIdAndRemove({_id: thisNoteId}, function(err){
-        if(err) throw err;
-        else{
-            db.Article.findByIdAndUpdate({_id: thisId},{$pull:{comment: thisNoteId}}, function(err){
-                if (err) throw err;
-                else{
-                    res.redirect("/saved")
-                }
-            })
-        }
+//     db.Comment.findByIdAndRemove({_id: thisNoteId}, function(err){
+//         if(err) throw err;
+//         else{
+//             db.Article.findByIdAndUpdate({_id: thisId},{$pull:{comment: thisNoteId}}, function(err){
+//                 if (err) throw err;
+//                 else{
+//                     res.redirect("/saved")
+//                 }
+//             })
+//         }
 
 
-    })
-    });
+//     })
+//     });
     
-
-
-
-
 
 // Start the server
 app.listen(PORT, function() {

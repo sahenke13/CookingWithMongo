@@ -61,10 +61,17 @@ $(document).on("click","#deleteNote", function(){
    
     let thisNoteId = $(this).attr("data-id");
     console.log("NoteID is: "+ thisNoteId);
-    let thisId = $(this).attr("data-articleId")
-    console.log(thisId)
+
+
+    $.ajax({
+        method: "POST",
+        url:"/savedArticles/Comment/delete/"+thisNoteId
+    }).then(function(data){
+        console.log(data);
+        window.location="/savedArticles"
+    });
 
 
 
 
-})
+});
