@@ -28,8 +28,9 @@ app.use(express.static("public"));
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
+require("dotenv").load();
 //connect to mongoose
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/cookArticlesdb";
+var MONGODB_URI = process.env.MONGODB_URI || LOCAL_MONGO_URI;
 
 mongoose.connect(MONGODB_URI);
 
