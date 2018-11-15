@@ -132,9 +132,6 @@ app.get("/notes", function(req, res){
 
 app.post("/notes/delete/:id",function(req,res){
     
-   
-  
-
     db.Comment.findByIdAndRemove({_id: req.params.id}).then(function(result){
         
             console.log(result)

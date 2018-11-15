@@ -2,7 +2,7 @@
 <div id="articleWell">
     {{#each savedObject}}
     <div class="articleDiv" id = "articleDiv" data-id={{this.id}}>
-        <a href={{this.link}}>
+        <a href={{this.link}} target="_blank">
             <h1 id="articleTitle" data-id={{this.id}}>{{this.title}}</h1>
         </a>
         <p>
@@ -10,13 +10,14 @@
         </p>
         {{#if this.comment}}
         
-        <h3>Comments</h3>
+        <h4>Comments</h4>
+        <hr>
         <div id ="commentDiv" data-id = {{this.id}}>
         <ul>
             {{#each this.comment}}
-                    <li>
+                    <li id = "noteListItem">
                         <p>
-                    {{this.note}}<span><button id = "deleteNote" data-id = {{this.id}} data-articleId = {{this.articleId}} type="button" class="btn btn-danger">X</button></span>
+                    <span><button id = "deleteNote" data-id = {{this.id}} data-articleId = {{this.articleId}} type="button" class="btn btn-danger">X</button>{{this.note}}</span>
                         </p>
                     </li>
             {{/each}}
