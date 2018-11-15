@@ -44,10 +44,6 @@ li{
     list-style-type: none
 }
 
-#noteListItem{
-    padding:10px
-
-}
 #deleteNote{
     padding-left: 10px;
     margin-right:2em;
